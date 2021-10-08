@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,5 +44,11 @@ public class ItemController {
   public ResponseEntity<Void> removeItem(@PathVariable Long id) {
     itemService.removeItem(id);
     return ResponseEntity.noContent().build();
+  }
+
+  @GetMapping("items/checkout")
+  public ResponseEntity<BigDecimal> checkout() {
+    BigDecimal total = itemService.getTotal();
+    return ResponseEntity.ok().body(total);
   }
 }
