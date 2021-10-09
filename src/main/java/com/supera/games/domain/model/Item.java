@@ -1,5 +1,7 @@
 package com.supera.games.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.supera.games.domain.model.pk.CartItemPK;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -9,45 +11,68 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 
-@RequiredArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@Table(name = "tb_cart_item")
 public class Item implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @EmbeddedId
+  private CartItemPK id = new CartItemPK();
 
-  @NonNull
-  @OneToOne
-  private Product product;
-
-  @NonNull
   private Integer quantity;
-  @NonNull
   private BigDecimal shipping;
+  private BigDecimal price;
 
-  //---
-  public BigDecimal getTotalValue() {
-    BigDecimal qnt = BigDecimal.valueOf(quantity);
-    return qnt.multiply(product.getPrice());
+  public Item() {
+  }
+
+//  public Item(ShoppingCart cart, Product product, Integer quantity, BigDecimal price) {
+  public Item(ShoppingCart cart, Product product, Integer quantity) {
+    id.setCart(cart);
+    id.setProduct(product);
+
+    this.quantity = quantity;
+    this.shipping = new BigDecimal("10.00");
+    this.price = product.getPrice();
+  }
+
+  @JsonIgnore
+  public ShoppingCart getCart() {
+    return id.getCart();
+  }
+
+  public void setCart(ShoppingCart cart) {
+    id.setCart(cart);
+  }
+
+  public Product getProduct() {
+    return id.getProduct();
+  }
+
+  public void setProduct(Product product) {
+    id.setProduct(product);
   }
 
 
-  // --
+  // Valor total do item
+  public BigDecimal getTotalValue() {
+    BigDecimal qnt = BigDecimal.valueOf(quantity);
+    return qnt.multiply(price);
+  }
+
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    if (o == null || getClass() != o.getClass()) return false;
     Item item = (Item) o;
-    return Objects.equals(id, item.id);
+    return id.equals(item.id);
   }
 
   @Override
   public int hashCode() {
-    return 0;
+    return Objects.hash(id);
   }
 }

@@ -1,7 +1,6 @@
 package com.supera.games.api;
 
 import com.supera.games.domain.model.Item;
-import com.supera.games.domain.model.Product;
 import com.supera.games.domain.repository.ProductRepository;
 import com.supera.games.domain.services.ItemService;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping
@@ -33,10 +31,8 @@ public class ItemController {
   @PostMapping("/items")
   @ResponseStatus(code = HttpStatus.CREATED)
   public ResponseEntity<Item> getItems(@RequestBody Item item) {
-    Optional <Product> product = productRepository.findById(item.getProduct().getId());
-    item.setProduct(product.get());
 
-    Item obj = itemService.savaItem(item);
+    Item obj = itemService.saveItem(item);
     return ResponseEntity.ok().body(obj);
   }
 

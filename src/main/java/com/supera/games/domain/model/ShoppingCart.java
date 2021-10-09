@@ -2,21 +2,41 @@ package com.supera.games.domain.model;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
+@Entity
 public class ShoppingCart {
 
-  private List<Item> item = new ArrayList<>();
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-  private BigDecimal subtotal = BigDecimal.ZERO;
-  private BigDecimal total = BigDecimal.ZERO;
-  private BigDecimal totalShipping = BigDecimal.ZERO;
+  @NonNull
   private OffsetDateTime createdAt;
+
+  @OneToMany(mappedBy = "id.cart")
+  private Set<Item> items = new HashSet<>();
+
+  // métodos utilitários
+  public BigDecimal subtotal() {
+    return null;
+  }
+
+  public BigDecimal total() {
+    return null;
+  }
+
+  public BigDecimal totalShipping() {
+    return null;
+  }
 }

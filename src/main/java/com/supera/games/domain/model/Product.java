@@ -1,13 +1,16 @@
 package com.supera.games.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -16,16 +19,31 @@ public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @NonNull
     private Long id;
-
-//    @OneToOne(mappedBy = "product")
-//    private Item item;
-
+    @NonNull
     private String name;
+    @NonNull
     private BigDecimal price;
-    private short score;
+    @NonNull
+    private Integer score;
+    @NonNull
     public String image;
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<Item> items = new HashSet<>();
+
+
+    // pega a lista de carrinhos onde o produto participou
+    @JsonIgnore
+    public Set<ShoppingCart> getCarts() {
+        Set<ShoppingCart> carts = new HashSet<>();
+        for (Item item : items) {
+            carts.add(item.getCart());
+        }
+
+        return carts;
+    }
 
     @Override
     public boolean equals(Object o) {
