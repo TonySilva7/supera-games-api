@@ -53,10 +53,11 @@ public class CartController {
     cart.setStatus(Status.PAID.name());
     cart = this.cartService.create(cart);
 
-    Product kkk = item.getProduct();
+    Long id = item.getPk().getProduct().getId();
+    Product p = productService.getProduct(id);
 
-//    Product p = productService.getProduct(item.getProduct().getId());
-    Item it = new Item(cart, item.getProduct(), item.getQuantity());
+
+    Item it = new Item(cart, p, item.getQuantity());
     itemService.create(it);
 
     cart.getCartProducts().add(it);
