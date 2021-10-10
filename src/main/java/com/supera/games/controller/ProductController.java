@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private ProductService productService;
+    private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    @GetMapping(value = { "", "/" })
+    @GetMapping
     public @NotNull
     Iterable<Product> getProducts() {
         return productService.getAllProducts();

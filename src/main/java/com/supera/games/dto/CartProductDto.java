@@ -3,7 +3,7 @@ package com.supera.games.dto;
 
 import com.supera.games.model.Product;
 
-public class OrderProductDto {
+public class CartProductDto {
 
   private Product product;
   private Integer quantity;
