@@ -32,12 +32,16 @@ public class ItemService {
   public Item saveItem(Item item) {
     // Cria um carrinho
     ShoppingCart cart = new ShoppingCart(OffsetDateTime.now());
-    Optional<Product> product = productRepository.findById(item.getProduct().getId());
+    Long id = item.getId().getProduct().getId();
+
+    Optional<Product> product = productRepository.findById(item.getId().getProduct().getId());
 
     item.setProduct(product.get());
     item.setCart(cart);
 
-    Item obj = itemRepository.save(item);
+    Item kkk = new Item(cart, product.get(), item.getQuantity());
+
+    Item obj = itemRepository.save(kkk);
     return obj;
   }
 
