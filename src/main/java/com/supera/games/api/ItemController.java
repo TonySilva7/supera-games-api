@@ -36,11 +36,11 @@ public class ItemController {
     return ResponseEntity.ok().body(obj);
   }
 
-  @DeleteMapping("/items/{id}")
-  public ResponseEntity<Void> removeItem(@PathVariable Long id) {
-    itemService.removeItem(id);
-    return ResponseEntity.noContent().build();
-  }
+//  @DeleteMapping("/items/{id}")
+//  public ResponseEntity<Void> removeItem(@PathVariable Long id) {
+//    itemService.removeItem(id);
+//    return ResponseEntity.noContent().build();
+//  }
 
   @GetMapping("items/checkout")
   public ResponseEntity<BigDecimal> checkout() {

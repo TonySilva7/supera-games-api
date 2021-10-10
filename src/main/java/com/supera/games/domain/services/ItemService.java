@@ -41,9 +41,9 @@ public class ItemService {
     return obj;
   }
 
-  public void removeItem(Long id) {
-    itemRepository.deleteById(id);
-  }
+//  public void removeItem(Long id) {
+//    itemRepository.deleteById(id);
+//  }
 
   public BigDecimal getSubTotal() {
     List<Item> items = getAllItems();
