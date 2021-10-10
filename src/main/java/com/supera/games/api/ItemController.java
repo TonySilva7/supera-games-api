@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping
+@RequestMapping("/items")
 public class ItemController {
 
   private final ItemService itemService;
@@ -23,23 +23,20 @@ public class ItemController {
     this.productRepository = productRepository;
   }
 
-  @GetMapping("/items")
+  @GetMapping
   public ResponseEntity<List<Item>> getItems() {
     List<Item> items = itemService.getAllItems();
     return ResponseEntity.ok().body(items);
   }
 
-  @PostMapping("/items")
+  @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
   public ResponseEntity<Item> getItems(@RequestBody Item item) {
-    Optional <Product> product = productRepository.findById(item.getProduct().getId());
-    item.setProduct(product.get());
-
     Item obj = itemService.savaItem(item);
     return ResponseEntity.ok().body(obj);
   }
 
-  @DeleteMapping("/items/{id}")
+  @DeleteMapping("/{id}")
   public ResponseEntity<Void> removeItem(@PathVariable Long id) {
     itemService.removeItem(id);
     return ResponseEntity.noContent().build();

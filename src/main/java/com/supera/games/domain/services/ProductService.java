@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -20,6 +21,10 @@ public class ProductService {
   public List<Product> getAllProducts() {
     List<Product> products = prodRepo.findAll();
     return products;
+  }
+
+  public Optional<Product> getProductById(Long id) {
+    return prodRepo.findById(id);
   }
 
   public List<Product> getAllProductsSorted(String type) {
