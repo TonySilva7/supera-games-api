@@ -1,15 +1,17 @@
 package com.supera.games.domain.model.pk;
 
-import com.supera.games.domain.model.Product;
-import com.supera.games.domain.model.ShoppingCart;
-import lombok.Getter;
-import lombok.Setter;
+import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.io.Serializable;
-import java.util.Objects;
+
+import com.supera.games.domain.model.Product;
+import com.supera.games.domain.model.ShoppingCart;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Embeddable
 @Getter

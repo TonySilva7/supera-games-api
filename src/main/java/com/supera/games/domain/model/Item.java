@@ -1,25 +1,24 @@
 package com.supera.games.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.supera.games.domain.model.pk.CartItemPK;
-import lombok.*;
-import org.hibernate.Hibernate;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.transaction.Transactional;
 
-@Getter
-@Setter
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.supera.games.domain.model.pk.CartItemPK;
+
 @Entity
 @Table(name = "tb_cart_item")
 public class Item implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @EmbeddedId
-  private CartItemPK id = new CartItemPK();
+  private final CartItemPK id = new CartItemPK();
 
   private Integer quantity;
   private BigDecimal shipping;
@@ -28,7 +27,7 @@ public class Item implements Serializable {
   public Item() {
   }
 
-//  public Item(ShoppingCart cart, Product product, Integer quantity, BigDecimal price) {
+  //  public Item(ShoppingCart cart, Product product, Integer quantity, BigDecimal price) {
   public Item(ShoppingCart cart, Product product, Integer quantity) {
     id.setCart(cart);
     id.setProduct(product);
@@ -36,6 +35,30 @@ public class Item implements Serializable {
     this.quantity = quantity;
     this.shipping = new BigDecimal("10.00");
     this.price = product.getPrice();
+  }
+
+  public Integer getQuantity() {
+    return quantity;
+  }
+
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
+  }
+
+  public BigDecimal getShipping() {
+    return shipping;
+  }
+
+  public void setShipping(BigDecimal shipping) {
+    this.shipping = shipping;
+  }
+
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  public void setPrice(BigDecimal price) {
+    this.price = price;
   }
 
   @JsonIgnore
@@ -56,7 +79,7 @@ public class Item implements Serializable {
   }
 
 
-  // Valor total do item
+  @Transactional
   public BigDecimal getTotalValue() {
     BigDecimal qnt = BigDecimal.valueOf(quantity);
     return qnt.multiply(price);

@@ -1,60 +1,97 @@
 package com.supera.games.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@RequiredArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
 @Entity
 public class Product implements Serializable {
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  public String image;
+  private String name;
+  private BigDecimal price;
+  private Integer score;
 
-    @Id
-    @NonNull
-    private Long id;
-    @NonNull
-    private String name;
-    @NonNull
-    private BigDecimal price;
-    @NonNull
-    private Integer score;
-    @NonNull
-    public String image;
+  @Transient
+  @OneToMany(mappedBy = "id.product")
+  private Set<Item> items = new HashSet<>();
 
-    @OneToMany(mappedBy = "id.product")
-    private Set<Item> items = new HashSet<>();
+  public Product() {
+  }
 
+  public Long getId() {
+    return id;
+  }
 
-    // pega a lista de carrinhos onde o produto participou
-    @JsonIgnore
-    public Set<ShoppingCart> getCarts() {
-        Set<ShoppingCart> carts = new HashSet<>();
-        for (Item item : items) {
-            carts.add(item.getCart());
-        }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-        return carts;
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+  }
+
+  public Integer getScore() {
+    return score;
+  }
+
+  public void setScore(Integer score) {
+    this.score = score;
+  }
+
+  // pega a lista de carrinhos onde o produto participou
+  @Transient
+  public Set<ShoppingCart> getCarts() {
+    Set<ShoppingCart> carts = new HashSet<>();
+    for (Item item : items) {
+      carts.add(item.getCart());
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id.equals(product.id);
-    }
+    return carts;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Product product = (Product) o;
+    return id.equals(product.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 }

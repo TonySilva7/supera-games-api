@@ -1,33 +1,12 @@
 package com.supera.games.config;
 
-import com.supera.games.domain.model.Item;
-import com.supera.games.domain.model.Product;
-import com.supera.games.domain.model.ShoppingCart;
-import com.supera.games.domain.repository.ItemRepository;
-import com.supera.games.domain.repository.ProductRepository;
-import com.supera.games.domain.repository.ShoppingCartRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
-
-  @Autowired
-  private ProductRepository prodRepo;
-  @Autowired
-  private ShoppingCartRepository cartRepo;
-  @Autowired
-  private ItemRepository itemRepo;
-
-
-
 
   @Override
   public void run(String... args) throws Exception {
